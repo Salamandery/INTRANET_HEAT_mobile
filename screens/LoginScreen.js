@@ -20,6 +20,7 @@ export default function LoginScreen({navigation}) {
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
   const [emp, setEmp] = useState('1');
+  const [error, setError] = useState('');
 
   useEffect(()=>{
     getLogged();
@@ -30,7 +31,7 @@ export default function LoginScreen({navigation}) {
     const me = await AsyncStorage.getItem('me');
 
     if (user) {
-        navigation.navigate('Main', usr, me);
+        navigation.navigate('Main', {user: usr, me: me});
     }
 
   }
@@ -40,16 +41,19 @@ export default function LoginScreen({navigation}) {
         pass,
         me: emp
     });
-    if (res.status === 200) {
-        navigation.navigate('Main', user, emp);
-
+    if (!res.data.error) {
         AsyncStorage.setItem('user', user);
         AsyncStorage.setItem('me', emp);
+
+        navigation.navigate('Main', {user, me: emp});
+    } else {
+        setError(res.data.error);
     }
   }
   return (
     <View style={styles.container}>
         <View>
+            { error ? <Text style={styles.error}>{error}</Text> : null}
             <Image style={styles.logo} source={logo}></Image>
         </View>
         <View style={styles.form}>
@@ -138,5 +142,17 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginVertical: 40
+    },
+    error: {
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        borderWidth: 1,
+        borderRadius: 4,
+        borderColor: "#b30000",
+        fontWeight: "bold",
+        fontSize: 18,
+        color: "#b30000",
+        textAlign: "center",
+        backgroundColor: "#ffcccc"
     }
 });

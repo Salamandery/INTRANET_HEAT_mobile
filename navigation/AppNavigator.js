@@ -5,7 +5,7 @@ import LoginScreen from '../screens/LoginScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
-    Main: MainTabNavigator,
     Login: LoginScreen,
+    Main: MainTabNavigator,
   })
 );

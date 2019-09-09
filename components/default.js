@@ -15,9 +15,10 @@ export const Item = styled.View`
     border-color: #fff;
     justify-content: flex-start;
     align-items: center;
-    background: #4da6ff;
+    background: ${props => props.Res ? "#4da6ff" : "#ff8080"};
     margin: 5px;
     padding-top: 5px;
+    padding: 0 20px;
     border-radius: 5px;
 `;
 export const NumOs = styled.Text`
