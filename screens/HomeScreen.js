@@ -41,10 +41,7 @@ export default function HomeScreen({navigation}) {
   }
   async function handlerRecOS(item) {
     try {
-      const res = await api.post('/rec_os_mobile', {
-        cdos: item.CD,
-        resp: user
-      });
+      const res = await api.get(`/rec_os_mobile/${item.CD}/${user}`);
       if (!res.data.errors) {
         const resos = await api.get('/push_tb_os'); 
         setOs(resos.data.rows);
