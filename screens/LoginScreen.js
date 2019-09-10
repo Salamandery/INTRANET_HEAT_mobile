@@ -42,10 +42,10 @@ export default function LoginScreen({navigation}) {
         me: emp
     });
     if (!res.data.error) {
-        AsyncStorage.setItem('user', user);
+        AsyncStorage.setItem('user', res.data.result.rows.cd_usuario);
         AsyncStorage.setItem('me', emp);
 
-        navigation.navigate('Main', {user, me: emp});
+        navigation.navigate('Main', {user: res.data.result.rows.cd_usuario, me: emp});
     } else {
         setError(res.data.error);
     }
