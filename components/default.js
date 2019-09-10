@@ -13,12 +13,11 @@ export const Item = styled.View`
     height: 86px;
     border-bottom-width: 1px;
     border-color: #fff;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     background: ${props => props.Res ? "#4da6ff" : "#ff8080"};
     margin: 5px;
-    padding-top: 5px;
-    padding: 0 20px;
+    padding: 5px 20px;
     border-radius: 5px;
 `;
 export const NumOs = styled.Text`
@@ -49,6 +48,7 @@ export const ResOs = styled.Text`
     font-size: 16px;
     font-weight: bold;
     color: #fff;
+    margin-bottom: 5px;
 `;
 // OsInfo
 export const OS = styled.View`

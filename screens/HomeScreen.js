@@ -5,14 +5,16 @@ import React, {
 import {
   SafeAreaView,
   TouchableOpacity,
+  StyleSheet,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
 import { Container, Table, Item, NumOs, SetorOs, DataOs, HeaderOs, ResOs} from '../components/default';
 import api from '../services/api';
 
 export default function HomeScreen({navigation}) {
-
+  const [loading, setLoading] = useState(false);
   const [os, setOs] = useState([]);
   const [user, setUser] = useState('');
   const [emp, setEmp] = useState('');
@@ -34,18 +36,27 @@ export default function HomeScreen({navigation}) {
       setOs(res.data.rows);
     }
   }
+  async function handlerRecOS(item) {
+    //const res = await api.get('/push_tb_os');
+    
+    //if (res) {
+      //setOs(res.data.rows);
+      //}
+    setLoading(false);
+  }
   function handlerRec(item) {
+    setLoading(true);
     Alert.alert(
       `OS: ${item.CD}`,
       `Deseja assumir essa O.S. ${user} ?`,
       [
-        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        {text: 'Depois', onPress: () => setLoading(false)},
         {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
+          text: 'Cancelar',
           style: 'cancel',
+          onPress: () => setLoading(false),
         },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
+        {text: 'Confirmar', onPress: () => handlerRecOS(item)},
       ],
       {cancelable: false},
     );
@@ -56,14 +67,15 @@ export default function HomeScreen({navigation}) {
   const renderItem = ({item}) => {
     return(
       <TouchableOpacity onPress={(e)=>(item.RES ? handlerItem(item) : handlerRec(item))}>
-        <Item Res={item.RES ? true : false}>
+        { loading ? <Item Res={item.RES ? true : false}><ActivityIndicator size="large" color="#fff" /></Item> : 
+        ( <Item Res={item.RES ? true : false}>
             <HeaderOs>
               <NumOs>{item.CD}</NumOs>
               <DataOs>{item.DATA}</DataOs>
             </HeaderOs>
             <SetorOs>{item.SETOR}</SetorOs>
             <ResOs>{item.RES}</ResOs>
-        </Item>
+        </Item> ) }
       </TouchableOpacity>
     );
   }
@@ -86,5 +98,5 @@ export default function HomeScreen({navigation}) {
 }
 
 HomeScreen.navigationOptions = {
-  title: "Ordem de Serviço"
+  title: "Pendências"
 };
