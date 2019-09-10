@@ -5,7 +5,6 @@ import React, {
 import {
   SafeAreaView,
   TouchableOpacity,
-  StyleSheet,
   Alert,
   AsyncStorage,
   ActivityIndicator
@@ -23,26 +22,38 @@ export default function HomeScreen({navigation}) {
     loadUser();
   }, []);
   async function loadUser() {
-    let user = await AsyncStorage.getItem('user');
+    let usr = await AsyncStorage.getItem('user');
     let me = await AsyncStorage.getItem('me');
 
-    setUser(user);
+    setUser(usr);
     setEmp(me);
   }
   async function loadOS() {
-    const res = await api.get('/push_tb_os');
+    try {
+      const res = await api.get('/push_tb_os');
 
-    if (res) {
-      setOs(res.data.rows);
+      if (res) {
+        setOs(res.data.rows);
+      }
+    } catch(err) {
+      console.log(err);
     }
   }
   async function handlerRecOS(item) {
-    //const res = await api.get('/push_tb_os');
-    
-    //if (res) {
-      //setOs(res.data.rows);
-      //}
-    setLoading(false);
+    try {
+      const res = await api.post('/rec_os_mobile', {
+        cdos: item.CD,
+        resp: user
+      });
+      if (!res.data.errors) {
+        const resos = await api.get('/push_tb_os'); 
+        setOs(resos.data.rows);
+      }
+      setLoading(false);
+    } catch(err) {
+      setLoading(false);
+    }
+
   }
   function handlerRec(item) {
     setLoading(true);

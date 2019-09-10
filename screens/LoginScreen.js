@@ -30,7 +30,7 @@ export default function LoginScreen({navigation}) {
     const usr = await AsyncStorage.getItem('user');
     const me = await AsyncStorage.getItem('me');
 
-    if (user) {
+    if (usr) {
         navigation.navigate('Main', {user: usr, me: me});
     }
 
@@ -42,7 +42,7 @@ export default function LoginScreen({navigation}) {
         me: emp
     });
     if (!res.data.error) {
-        AsyncStorage.setItem('user', res.data.result.rows.cd_usuario);
+        AsyncStorage.setItem('user', res.data.result.rows[0].cd_usuario);
         AsyncStorage.setItem('me', emp);
 
         navigation.navigate('Main', {user: res.data.result.rows.cd_usuario, me: emp});
