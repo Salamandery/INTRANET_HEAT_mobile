@@ -81,7 +81,7 @@ export default function HomeScreen({navigation}) {
         { loading ? <Item Res={item.RES ? true : false}><ActivityIndicator size="large" color="#fff" /></Item> : 
         ( <Item Res={item.RES ? true : false}>
             <HeaderOs>
-              <NumOs>{item.CD}</NumOs>
+              <NumOs>{item.CD} -</NumOs>
               <DataOs>{item.DATA}</DataOs>
             </HeaderOs>
             <SetorOs>{item.SETOR}</SetorOs>

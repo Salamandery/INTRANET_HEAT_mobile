@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         color: "#fff"
     },
     logo: {
-        marginVertical: 40
+        marginVertical: 50
     },
     error: {
         paddingHorizontal: 20,
