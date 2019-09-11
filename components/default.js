@@ -64,6 +64,7 @@ export const Form = styled.View`
     flex: 1;
     padding: 20px;
     justify-content: center;
+    flex-direction: row;
 `;
 export const DescriptionOS = styled.Text`
     font-size: 18px;
@@ -89,6 +90,8 @@ export const Grouptext = styled.View`
     align-self: stretch;
     margin-bottom: 5px;
     padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: 1px solid #4da6ff;
     border-radius: 7px;
 `;

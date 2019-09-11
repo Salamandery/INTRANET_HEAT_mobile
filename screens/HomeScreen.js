@@ -16,21 +16,30 @@ export default function HomeScreen({navigation}) {
   const [loading, setLoading] = useState(false);
   const [os, setOs] = useState([]);
   const [user, setUser] = useState('');
+  const [o, setO] = useState('');
+  const [m_o, setM_O] = useState('');
   const [emp, setEmp] = useState('');
 
   useEffect(()=>{
+    //AsyncStorage.clear();
     loadUser();
   }, []);
   async function loadUser() {
     let usr = await AsyncStorage.getItem('user');
     let me = await AsyncStorage.getItem('me');
-
+    let ofi = await AsyncStorage.getItem('o');
+    let m_ofi = await AsyncStorage.getItem('m_o');
+    
     setUser(usr);
     setEmp(me);
+    setO(ofi);
+    setM_O(m_ofi);
+
+    await loadOS(ofi, m_ofi, me);
   }
-  async function loadOS() {
+  async function loadOS(ofi, m_ofi, me) {
     try {
-      const res = await api.get('/push_tb_os');
+      const res = await api.get(`/push_tb_os/${m_ofi}/${me}/${ofi}`);
 
       if (res) {
         setOs(res.data.rows);
@@ -87,9 +96,6 @@ export default function HomeScreen({navigation}) {
       </TouchableOpacity>
     );
   }
-  useEffect(()=>{
-    loadOS();
-  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>

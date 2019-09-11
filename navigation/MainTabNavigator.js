@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import OSInfo from '../screens/OsInfoScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import TransOSScreen from '../screens/TransOSScreen';
 
 const config = {
   headerLayoutPreset: "center",
@@ -22,7 +23,8 @@ const config = {
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    OSInfo: OSInfo
+    OSInfo: OSInfo,
+    TransOSScreen: TransOSScreen
   },
   {
     headerLayoutPreset: "center",
@@ -76,7 +78,7 @@ const SettingsStack = createStackNavigator(
 );
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: 'Configuração',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
@@ -87,7 +89,7 @@ SettingsStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   //LinksStack,
-  //SettingsStack,
+  SettingsStack,
 },{
   tabBarOptions: {
     activeTintColor: '#f2f2f2',

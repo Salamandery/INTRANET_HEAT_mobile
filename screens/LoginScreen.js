@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import {
   Image,
+  KeyboardAvoidingView,
   Platform,
   Picker,
   StyleSheet,
@@ -42,49 +43,55 @@ export default function LoginScreen({navigation}) {
         me: emp
     });
     if (!res.data.error) {
+        AsyncStorage.setItem('me', String(emp));
         AsyncStorage.setItem('user', res.data.result.rows[0].cd_usuario);
-        AsyncStorage.setItem('me', emp);
+        AsyncStorage.setItem('o', String(res.data.result.rows[0].cd_oficina));
+        AsyncStorage.setItem('m_o', res.data.result.rows[0].multi_oficina);
 
-        navigation.navigate('Main', {user: res.data.result.rows.cd_usuario, me: emp});
+        navigation.navigate('Main', {user: res.data.result.rows.cd_usuario, me: emp, m_o: res.data.result.rows[0].multi_oficina, o: res.data.result.rows[0].cd_oficina});
     } else {
         setError(res.data.error);
     }
   }
   return (
-    <View style={styles.container}>
-        <View>
+    <KeyboardAvoidingView style={styles.container}
+                          enabled={Platform.OS === 'ios'}
+                          behavior="padding">
+            <View>
+                <Image style={styles.logo} source={logo}></Image>
+            </View>
+            <View style={styles.form}>
+                <TextInput 
+                    placeholderTextColor="#FFF"
+                    placeholder="Digite seu usuário"
+                    autoCapitalize="characters"
+                    autoCorrect={false}
+                    value={user}
+                    onChangeText={setUser}
+                    style={styles.input}
+                />
+                <TextInput 
+                    placeholderTextColor="#FFF"
+                    placeholder="Digite sua senha"
+                    autoCapitalize="none"
+                    value={pass}
+                    onChangeText={e=>setPass(e)}
+                    returnKeyLabel="send"
+                    returnKeyType="send"
+                    secureTextEntry={true}
+                    style={styles.input}
+                    onSubmitEditing={handlerSubmit}
+                />
+                <Picker style={styles.picker} selectedValue={emp} onValueChange={e=>setEmp(e)}>
+                    <Picker.Item style={styles.pickerText} label="HEAT" value="1" />
+                    <Picker.Item style={styles.pickerText} label="HEJBC" value="2" />
+                </Picker>
+                <TouchableOpacity style={styles.buttonLogin} onPress={handlerSubmit}>
+                    <Text style={styles.loginText}>Entrar</Text>
+                </TouchableOpacity>
+            </View>
             { error ? <Text style={styles.error}>{error}</Text> : null}
-            <Image style={styles.logo} source={logo}></Image>
-        </View>
-        <View style={styles.form}>
-            <TextInput 
-                placeholder="Digite seu usuário"
-                autoCapitalize="characters"
-                autoCorrect={false}
-                value={user}
-                onChangeText={setUser}
-                style={styles.input}
-            />
-            <TextInput 
-                placeholder="Digite sua senha"
-                autoCapitalize="none"
-                value={pass}
-                onChangeText={e=>setPass(e)}
-                returnKeyLabel="send"
-                returnKeyType="send"
-                secureTextEntry={true}
-                style={styles.input}
-                onSubmitEditing={handlerSubmit}
-            />
-            <Picker style={styles.picker} selectedValue={emp} onValueChange={e=>setEmp(e)}>
-                <Picker.Item style={styles.pickerText} label="HEAT" value="1" />
-                <Picker.Item style={styles.pickerText} label="HEJBC" value="2" />
-            </Picker>
-            <TouchableOpacity style={styles.buttonLogin} onPress={handlerSubmit}>
-                <Text style={styles.loginText}>Entrar</Text>
-            </TouchableOpacity>
-        </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -96,8 +103,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 20,
-        paddingVertical: 20,
-        justifyContent: "center",
+        paddingVertical: 60,
+        justifyContent: "flex-start",
         alignItems: "center",
         backgroundColor: "#66b3ff"
     },
@@ -132,6 +139,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginVertical: 10,
         fontSize: 24,
+        color: "#fff"
     },
     picker: {
         alignSelf: "stretch",
@@ -141,9 +149,13 @@ const styles = StyleSheet.create({
         color: "#fff"
     },
     logo: {
-        marginVertical: 50
+        alignSelf: "stretch",
+        marginBottom: 50,
+        marginHorizontal: 20,
+        height: 120,
     },
     error: {
+        marginVertical: 30,
         paddingHorizontal: 20,
         paddingVertical: 20,
         borderWidth: 1,

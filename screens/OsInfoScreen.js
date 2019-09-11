@@ -1,15 +1,22 @@
 import React from 'react';
 import {
-    ScrollView
+    ScrollView,
+    TouchableOpacity,
+    Platform,
+    StyleSheet
 } from 'react-native';
 import { Container, OS, Form, DescriptionOS, TextOS, LabelOS, Grouptext } from '../components/default';
+import TabBarIcon from '../components/TabBarIcon';
 export default class OsInfoScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         title: "OS:" + navigation.state.params.os.CD
     })
-
+    handlerTrans = () => {
+        const os = this.props.navigation.getParam('os');
+        this.props.navigation.navigate('TransOSScreen', {os});
+    }
     render(){
-        const os  = this.props.navigation.getParam('os')
+        const os  = this.props.navigation.getParam('os');
         return(
             <Container>
                 <ScrollView style={{alignSelf: "stretch"}} showsHorizontalScrollIndicator={false}>
@@ -31,15 +38,25 @@ export default class OsInfoScreen extends React.Component {
                             <DescriptionOS>{os.DS}</DescriptionOS>
                         </Grouptext>
                         <Grouptext>
-                            <LabelOS>Responsavel:</LabelOS>
+                            <LabelOS>Responsável:</LabelOS>
                             <DescriptionOS>{os.RES}</DescriptionOS>
                         </Grouptext>
                     </OS>
                     <Form>
-
+                        <TouchableOpacity style={styles.BtnTrans} onPress={this.handlerTrans}>
+                            <TabBarIcon focused={true} name={Platform.OS === 'ios' ? 'ios-swap' : 'md-swap'} />
+                        </TouchableOpacity>
                     </Form>
                 </ScrollView>
             </Container>
         )
     }
 }
+const styles = StyleSheet.create({
+    BtnTrans: {
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        backgroundColor: "#808080",
+        borderRadius: 7
+    } 
+});
