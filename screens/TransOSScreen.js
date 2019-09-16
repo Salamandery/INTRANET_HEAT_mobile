@@ -7,7 +7,8 @@ import {
   Platform,
   StyleSheet,
   AsyncStorage,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import { Container, TextOS, LabelOS, Form, Grouptext } from '../components/default';
 import TabBarIcon from '../components/TabBarIcon';
@@ -36,32 +37,34 @@ export default function TransOSScreen({navigation}) {
   }
   return (
     <Container>
-      <Grouptext>
-        <LabelOS>OS:</LabelOS>
-        <TextOS>{os.CD}</TextOS>
-      </Grouptext>
-      <Grouptext>
-        <LabelOS>Descrição:</LabelOS>
-        <TextOS>{os.DS}</TextOS>
-      </Grouptext>
-      <Grouptext>
-        <LabelOS>Responsável:</LabelOS>
-        <TextOS>{os.RES}</TextOS>
-      </Grouptext>
-      <Grouptext>
-        <LabelOS>Usuário</LabelOS>
-        <Picker style={styles.picker} selectedValue={nResp} onValueChange={e=>setNResp(e)}>
-            <Picker.Item style={styles.pickerText} label="Selecione o usuário" value={'0'} />
-            {
-              user.map((e, idx)=>(
-                <Picker.Item key={idx} style={styles.pickerText} label={e.cd_usuario} value={e.cd_usuario} />
-              ))
-            }
-        </Picker>
-      </Grouptext>
-      <TouchableOpacity style={styles.BtnTrans} onPress={handlerTrans}>
-          <TabBarIcon focused={true} name={Platform.OS === 'ios' ? 'ios-checkbox-outline' : 'md-checkbox-outline'} />
-      </TouchableOpacity>
+      <ScrollView style={{alignSelf: "stretch"}} showsHorizontalScrollIndicator={false}>
+        <Grouptext>
+          <LabelOS>OS:</LabelOS>
+          <TextOS>{os.CD}</TextOS>
+        </Grouptext>
+        <Grouptext>
+          <LabelOS>Descrição:</LabelOS>
+          <TextOS>{os.DS}</TextOS>
+        </Grouptext>
+        <Grouptext>
+          <LabelOS>Responsável:</LabelOS>
+          <TextOS>{os.RES}</TextOS>
+        </Grouptext>
+        <Grouptext>
+          <LabelOS>Usuário</LabelOS>
+          <Picker style={styles.picker} selectedValue={nResp} onValueChange={e=>setNResp(e)}>
+              <Picker.Item style={styles.pickerText} label="Selecione o usuário" value={'0'} />
+              {
+                user.map((e, idx)=>(
+                  <Picker.Item key={idx} style={styles.pickerText} label={e.cd_usuario} value={e.cd_usuario} />
+                ))
+              }
+          </Picker>
+        </Grouptext>
+        <TouchableOpacity style={styles.BtnTrans} onPress={handlerTrans}>
+            <TabBarIcon focused={true} name={Platform.OS === 'ios' ? 'ios-checkbox-outline' : 'md-checkbox-outline'} />
+        </TouchableOpacity>
+      </ScrollView>
     </Container>
   );
 }

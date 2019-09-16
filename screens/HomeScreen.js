@@ -44,22 +44,19 @@ export default function HomeScreen({navigation}) {
       if (res) {
         setOs(res.data.rows);
       }
+      setLoading(false);
     } catch(err) {
       console.log(err);
+      setLoading(false);
     }
   }
   async function handlerRecOS(item) {
     try {
       const res = await api.get(`/rec_os_mobile/${item.CD}/${user}`);
-      if (!res.data.errors) {
-        const resos = await api.get('/push_tb_os'); 
-        setOs(resos.data.rows);
-      }
-      setLoading(false);
+      await loadOS(o, m_o, emp);
     } catch(err) {
       setLoading(false);
-    }
-
+    } 
   }
   function handlerRec(item) {
     setLoading(true);
@@ -105,6 +102,8 @@ export default function HomeScreen({navigation}) {
             keyExtractor={os=>String(os.CD)}
             renderItem={renderItem}
             onEndReachedThreshold={.1}
+            onRefresh={e=>{setLoading(true); loadOS(o, m_o, emp);}}
+            refreshing={loading}
         />
       </Container>
     </SafeAreaView>
