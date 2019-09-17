@@ -58,13 +58,22 @@ export default function HomeScreen({navigation}) {
       setLoading(false);
     } 
   }
+  async function handlerAfter(item) {
+    try {
+      setLoading(false);
+      navigation.navigate('OSInfo', {os: item});
+    } catch(err) {
+      console.log(err);
+      setLoading(false);
+    }
+  }
   function handlerRec(item) {
     setLoading(true);
     Alert.alert(
       `OS: ${item.CD}`,
       `Deseja assumir essa O.S. ${user} ?`,
       [
-        {text: 'Depois', onPress: () => setLoading(false)},
+        {text: 'Depois', onPress: () => handlerAfter(item)},
         {
           text: 'Cancelar',
           style: 'cancel',
