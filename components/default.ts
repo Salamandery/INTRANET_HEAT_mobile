@@ -17,7 +17,7 @@ interface ItemAttr {
 
 export const Item = styled.View<ItemAttr>`
     align-self: stretch;
-    height: 86px;
+    height: 120px;
     justify-content: center;
     align-items: center;
     background: ${props => props.Res ? "#0059b3" : "#b30000"};

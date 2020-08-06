@@ -17,7 +17,7 @@ export default function LoginScreen({ navigation }) {
   const [user, setUser] = React.useState('');
   const [pass, setPass] = React.useState('');
   const [emp, setEmp] = React.useState('1');
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState([]);
 
   const handlerSubmit = React.useCallback(async() => {
     const res = await api.post(`${baseURL.externo}/session`, {
@@ -26,7 +26,7 @@ export default function LoginScreen({ navigation }) {
       company: emp,
     });
 
-    if (!res.data.error) {
+    if (!res.data.errors) {
       
         const { token } = res.data;
 
@@ -36,7 +36,7 @@ export default function LoginScreen({ navigation }) {
 
         navigation.navigate('Root');
     } else {
-        setError(res.data.error);
+        setError(res.data.errors);
     }
   }, [user, pass, emp]);
 
@@ -56,9 +56,7 @@ export default function LoginScreen({ navigation }) {
     <KeyboardAvoidingView style={styles.container}
                           enabled={Platform.OS === 'ios'}
                           behavior="padding">
-            <View>
-                <Image style={styles.logo} source={{uri: 'null'}}></Image>
-            </View>
+            { error ?  error.map(item=><Text style={styles.error}>{item.msg}</Text>) : null}
             <View style={styles.form}>
                 <TextInput 
                     placeholderTextColor="#FFF"
@@ -90,7 +88,6 @@ export default function LoginScreen({ navigation }) {
                     <Text style={styles.loginText}>Entrar</Text>
                 </TouchableOpacity>
             </View>
-            { error ? <Text style={styles.error}>{error}</Text> : null}
     </KeyboardAvoidingView>
   );
 }
