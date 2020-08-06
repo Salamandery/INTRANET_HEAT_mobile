@@ -1,21 +1,27 @@
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 export const Container = styled.View`
     flex: 1;
-    padding: 20px;
     background: #66b3ff;
 `;
 // Home
 export const Table = styled.FlatList`
-    margin-top: 0px;
+    margin: 0px;
+    padding: 5px 15px;
+    margin-bottom: 5px;
 `;
-export const Item = styled.View`
+
+interface ItemAttr {
+    Res: boolean;
+}
+
+export const Item = styled.View<ItemAttr>`
     align-self: stretch;
     height: 86px;
     justify-content: center;
     align-items: center;
     background: ${props => props.Res ? "#0059b3" : "#b30000"};
-    margin: 2px;
+    margin: 3px 0px;
     padding: 5px 20px;
     border-radius: 5px;
 `;
@@ -55,6 +61,7 @@ export const ResOs = styled.Text`
 `;
 // OsInfo
 export const OS = styled.View`
+    margin-top: 35px;
     padding: 10px;
     justify-content: center;
     align-items: center;

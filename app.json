@@ -2,16 +2,11 @@
   "expo": {
     "name": "INTRANET",
     "slug": "INTRANET",
-    "privacy": "public",
-    "sdkVersion": "34.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -20,15 +15,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.atomiccodes.intranetheat"
+      "supportsTablet": true
     },
-    "android": {
-      "package": "com.atomiccodes.intranetheat"
+    "web": {
+      "favicon": "./assets/images/favicon.png"
     }
   }
 }

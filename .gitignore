@@ -8,7 +8,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-web-report/
-.env
-./services/api.js
-services
+
+# macOS
+.DS_Store
